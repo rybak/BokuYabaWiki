@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      6
+// @version      7
 // @description  Helps with JWB editing on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -41,6 +41,7 @@
 
 	const TIMESTAMP_SELECTOR = 'article time';
 	const USERSCRIPT_CONTAINER_ID = 'BokuYabaWikiHelper';
+	const CITATION_BLOCK_ID = 'BokuYabaWikiHelperCitation';
 
 	function createUserscriptContainer() {
 		const div = document.createElement('div');
@@ -51,23 +52,26 @@
 		div.style.position = 'absolute';
 		div.style.top = '1rem';
 		div.style.maxWidth = '45rem';
-		document.body.append(div);
+		return div;
 	}
 
 	function createCopypasteBlock(text) {
 		console.info(text);
 		const pre = document.createElement('pre');
 		pre.append(text);
-
-		const container = document.getElementById(USERSCRIPT_CONTAINER_ID);
-		container.append(document.createElement('hr'));
-		container.append(pre);
+		return pre;
 	}
 
-	function createAnnoucementTweetCopypasteBlock() {
+	function appendToUserscriptContainer(child) {
+		const container = document.getElementById(USERSCRIPT_CONTAINER_ID);
+		container.append(document.createElement('hr'));
+		container.append(child);
+	}
+
+	function appendAnnoucementTweetCopypasteBlock() {
 		const url = 'https://twitter.com' + document.location.pathname;
 		const wikitext = `==Notes==\n* [${url} Announcement tweet]`;
-		createCopypasteBlock(wikitext);
+		appendToUserscriptContainer(createCopypasteBlock(wikitext));
 	}
 
 	const shortMonthToLongMonth = {
@@ -118,7 +122,13 @@
 		});
 	}
 
-	function createCiteTweetCopypasteBlock() {
+	function appendCiteTweetCopypasteBlock(translation) {
+		let container = document.getElementById(CITATION_BLOCK_ID);
+		if (container == null) {
+			container = document.createElement('div');
+			container.id = CITATION_BLOCK_ID;
+			appendToUserscriptContainer(container);
+		}
 		const parts = document.location.pathname.split('/');
 		const user = parts[1];
 		const number = parts[3];
@@ -127,10 +137,25 @@
 			const title = tweetTextElement.innerText;
 			const citeTweet = `{{Cite tweet |user=${user} |number=${number}
 |title=${title}
-|translation=
+|translation=${translation}
 }}`;
-			createCopypasteBlock(`<ref>${citeTweet}</ref>`);
-			createCopypasteBlock(`It was released with the teaser text ""<ref>${citeTweet}</ref>`);
+			container.replaceChildren(
+				createCopypasteBlock(`<ref>${citeTweet}</ref>`),
+				document.createElement('hr'),
+				createCopypasteBlock(`It was released with the teaser text ""<ref>${citeTweet}</ref>`)
+			);
+		});
+	}
+
+	function clickTranslate() {
+		waitForElement('section > h1 + div article [data-testid="tweetText"] + button').then(translateButton => {
+			translateButton.click();
+			waitForElement('[aria-label="Hide translated post"]').then(hideTranslation => {
+				waitForElement('article .css-175oi2r.r-14gqq1x').then(translationDiv => {
+					const translation = translationDiv.querySelector('[data-testid="tweetText"]').innerText;
+					appendCiteTweetCopypasteBlock(translation);
+				});
+			});
 		});
 	}
 
@@ -145,10 +170,11 @@
 	if (document.location.pathname.includes('/status/')) {
 		const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
 		if (USERNAMES.has(username)) {
-			createUserscriptContainer();
-			createAnnoucementTweetCopypasteBlock();
-			createCiteTweetCopypasteBlock();
+			document.body.append(createUserscriptContainer());
+			appendAnnoucementTweetCopypasteBlock();
+			appendCiteTweetCopypasteBlock("");
 			// expandDateOfTweet();
+			clickTranslate();
 		}
 	}
 })();
