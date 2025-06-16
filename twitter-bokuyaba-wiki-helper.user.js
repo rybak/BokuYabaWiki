@@ -2,7 +2,7 @@
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
 // @version      7
-// @description  Helps with JWB editing on BokuYaba wiki
+// @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
 // @match        https://x.com/*
