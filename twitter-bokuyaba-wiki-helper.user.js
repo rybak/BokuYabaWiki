@@ -122,6 +122,13 @@
 		});
 	}
 
+	function formatCiteTweet(user, number, title, translation) {
+		return `{{Cite tweet |user=${user} |number=${number}
+|title=${title}
+|translation=${translation}
+}}`;
+	}
+
 	function appendCiteTweetCopypasteBlock(translation) {
 		let container = document.getElementById(CITATION_BLOCK_ID);
 		if (container == null) {
@@ -135,10 +142,7 @@
 		waitForElement('section > h1 + div article [data-testid="tweetText"], ' +
 					   'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
 			const title = tweetTextElement.innerText;
-			const citeTweet = `{{Cite tweet |user=${user} |number=${number}
-|title=${title}
-|translation=${translation}
-}}`;
+			const citeTweet = formatCiteTweet(user, number, title, translation);
 			container.replaceChildren(
 				createCopypasteBlock(`<ref>${citeTweet}</ref>`),
 				document.createElement('hr'),
