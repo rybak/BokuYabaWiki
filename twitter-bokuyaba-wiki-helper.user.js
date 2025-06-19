@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      10
+// @version      11
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -123,7 +123,7 @@
 	}
 
 	function escapeSpecialCharacters(wikitext) {
-		return wikitext.replace('#', '{{Hashtag}}').replace('|', '{{!}}');
+		return wikitext.replaceAll('#', '{{Hashtag}}').replaceAll('|', '{{!}}');
 	}
 
 	function formatCiteTweet(user, number, title, translation) {
