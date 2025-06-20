@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      12
+// @version      13
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -132,6 +132,7 @@
 
 	function cleanUpEnglish(translation) {
 		return translation
+			.replaceAll("#僕ヤバ", "#BokuYaba") // stays untranslated in hashtags
 			.replaceAll("[Update] ", "")
 			.replaceAll("My Dangerous Girlfriend", "The Dangers in My Heart");
 	}
