@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      11
+// @version      12
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -126,8 +126,20 @@
 		return wikitext.replaceAll('#', '{{Hashtag}}').replaceAll('|', '{{!}}');
 	}
 
+	function cleanUpJapanese(title) {
+		return title.replaceAll("【更新】", "");
+	}
+
+	function cleanUpEnglish(translation) {
+		return translation
+			.replaceAll("[Update] ", "")
+			.replaceAll("My Dangerous Girlfriend", "The Dangers in My Heart");
+	}
+
 	function formatCiteTweet(user, number, title, translation) {
+		title = cleanUpJapanese(title);
 		title = escapeSpecialCharacters(title);
+		translation = cleanUpEnglish(translation);
 		translation = escapeSpecialCharacters(translation);
 		if (title.length < 15) {
 			return `{{Cite tweet
