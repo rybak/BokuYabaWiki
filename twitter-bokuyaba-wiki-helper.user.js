@@ -171,7 +171,7 @@
 			container.replaceChildren(
 				createCopypasteBlock(`<ref>${citeTweet}</ref>`),
 				document.createElement('hr'),
-				createCopypasteBlock(`It was released with the teaser text ""<ref>${citeTweet}</ref>`)
+				createCopypasteBlock(` It was released with the teaser text ""<ref>${citeTweet}</ref>`)
 			);
 		});
 	}
