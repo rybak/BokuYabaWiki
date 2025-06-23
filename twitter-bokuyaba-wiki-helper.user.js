@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      14
+// @version      15
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -134,6 +134,7 @@
 		const titleMistranslations = [
 			"My Dangerous Girlfriend",
 			"My Dangerous Heart",
+			"My Dangerous Man",
 			"My Dangerous Wife",
 			"My Heart is Crazy",
 			"My Heart Yabai",
