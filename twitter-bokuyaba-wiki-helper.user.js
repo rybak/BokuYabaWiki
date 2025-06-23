@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      16
+// @version      17
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -132,8 +132,8 @@
 
 	function cleanUpEnglish(translation) {
 		const titleMistranslations = [
-			"My Dangerous Girl",
 			"My Dangerous Girlfriend",
+			"My Dangerous Girl",
 			"My Dangerous Heart",
 			"My Dangerous Man",
 			"My Dangerous Wife",
