@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      17
+// @version      18
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -37,188 +37,227 @@
 /* globals waitForElement */
 
 (function() {
-	'use strict';
+    'use strict';
 
-	const TIMESTAMP_SELECTOR = 'article time';
-	const USERSCRIPT_CONTAINER_ID = 'BokuYabaWikiHelper';
-	const CITATION_BLOCK_ID = 'BokuYabaWikiHelperCitation';
+    const TIMESTAMP_SELECTOR = 'article time';
+    const USERSCRIPT_CONTAINER_ID = 'BokuYabaWikiHelper';
+    const CITATION_BLOCK_ID = 'BokuYabaWikiHelperCitation';
 
-	function createUserscriptContainer() {
-		const div = document.createElement('div');
-		div.id = USERSCRIPT_CONTAINER_ID;
-		div.style.padding = '0 2rem';
-		div.style.zIndex = 1000;
-		div.style.right = '1rem';
-		div.style.position = 'absolute';
-		div.style.top = '1rem';
-		div.style.maxWidth = '45rem';
-		return div;
-	}
+    const LOG_PREFIX = '[BokuYaba Wiki]';
 
-	function createCopypasteBlock(text) {
-		console.info(text);
-		const pre = document.createElement('pre');
-		pre.append(text);
-		return pre;
-	}
+    function info(...toLog) {
+        console.info(LOG_PREFIX, ...toLog);
+    }
+    function warn(...toLog) {
+        console.warn(LOG_PREFIX, ...toLog);
+    }
+    function error(...toLog) {
+        console.error(LOG_PREFIX, ...toLog);
+    }
 
-	function appendToUserscriptContainer(child) {
-		const container = document.getElementById(USERSCRIPT_CONTAINER_ID);
-		container.append(document.createElement('hr'));
-		container.append(child);
-	}
+    function createUserscriptContainer() {
+        const div = document.createElement('div');
+        div.id = USERSCRIPT_CONTAINER_ID;
+        div.style.padding = '0 2rem';
+        div.style.zIndex = 1000;
+        div.style.right = '1rem';
+        div.style.position = 'absolute';
+        div.style.top = '1rem';
+        div.style.maxWidth = '45rem';
+        return div;
+    }
 
-	function appendAnnoucementTweetCopypasteBlock() {
-		const url = 'https://twitter.com' + document.location.pathname;
-		const wikitext = `==Notes==\n* [${url} Announcement tweet]`;
-		appendToUserscriptContainer(createCopypasteBlock(wikitext));
-	}
+    function createCopyElement(tagName, copyText, textSupplier) {
+        const elem = document.createElement(tagName);
+        elem.classList.add('aui-button');
+        elem.style.padding = '0.5em 1em';
+        elem.href = '#';
+        elem.appendChild(document.createTextNode(copyText));
+        elem.onclick = e => {
+            e.preventDefault();
+            try {
+                navigator.clipboard.writeText(textSupplier());
+            } catch (e) {
+                error('navigator.clipboard is not supported:', e)
+            }
+        };
+        return elem;
+    }
 
-	const shortMonthToLongMonth = {
-		'Jan': 'January',
-		'Feb': 'February',
-		'Mar': 'March',
-		'Apr': 'April',
-		'May': 'May',
-		'Jun': 'June',
-		'Jul': 'July',
-		'Aug': 'August',
-		'Sep': 'September',
-		'Oct': 'October',
-		'Nov': 'November',
-		'Dec': 'December',
-	};
+    function createCopyButton(buttonText, textSupplier) {
+        return createCopyElement('button', buttonText, textSupplier);
+    }
 
-	function englishOrdinalSuffix(n) {
-		if (n === 11 || n === 12 || n === 13) {
-			return 'th';
-		}
-		const mod10 = n % 10;
-		if (mod10 === 1) {
-			return 'st';
-		}
-		if (mod10 === 2) {
-			return 'nd';
-		}
-		if (mod10 === 3) {
-			return 'rd';
-		}
-		return 'th';
-	}
+    function createCopypasteBlock(text) {
+        info(text);
+        const pre = document.createElement('pre');
+        pre.append(text);
+        return pre;
+    }
 
-	function expandDateOfTweet() {
-		return waitForElement(TIMESTAMP_SELECTOR).then(timeElement => {
-			const original = timeElement.innerText;
-			const parts = original.split(" ");
-			const shortMonth = parts[3];
-			const dayOfMonth = parseInt(parts[4].split(",")[0]);
-			const newText = [
-				...parts.slice(0, 3),
-				shortMonthToLongMonth[shortMonth],
-				dayOfMonth + englishOrdinalSuffix(dayOfMonth) + ",",
-				parts[5]
-			].join(" ");
-			timeElement.innerText = newText;
-		});
-	}
+    function appendToUserscriptContainer(...children) {
+        const container = document.getElementById(USERSCRIPT_CONTAINER_ID);
+        container.append(document.createElement('hr'));
+        container.append(...children);
+    }
 
-	function escapeSpecialCharacters(wikitext) {
-		return wikitext.replaceAll('#', '{{Hashtag}}').replaceAll('|', '{{!}}');
-	}
+    function appendUrlCopypasteBlock() {
+        const url = 'https://twitter.com' + document.location.pathname;
+        appendToUserscriptContainer(
+            createCopypasteBlock(url),
+            createCopyButton('Copy', () => url)
+        );
+    }
 
-	function cleanUpJapanese(title) {
-		return title.replaceAll("【更新】", "");
-	}
+    const shortMonthToLongMonth = {
+        'Jan': 'January',
+        'Feb': 'February',
+        'Mar': 'March',
+        'Apr': 'April',
+        'May': 'May',
+        'Jun': 'June',
+        'Jul': 'July',
+        'Aug': 'August',
+        'Sep': 'September',
+        'Oct': 'October',
+        'Nov': 'November',
+        'Dec': 'December',
+    };
 
-	function cleanUpEnglish(translation) {
-		const titleMistranslations = [
-			"My Dangerous Girlfriend",
-			"My Dangerous Girl",
-			"My Dangerous Heart",
-			"My Dangerous Man",
-			"My Dangerous Wife",
-			"My Heart is Crazy",
-			"My Heart Yabai",
-			"My Heart's Bad Guy",
-			"The Bad Guy in My Heart",
-			"The Dangerous One in My Heart",
-			"The Dangerous Thing in My Heart"
-		];
-		for (const mistranslation of titleMistranslations) {
-			translation = translation.replaceAll(mistranslation, "The Dangers in My Heart");
-		}
-		return translation
-			.replaceAll("#僕ヤバ", "#BokuYaba") // stays untranslated in hashtags
-			.replaceAll("[Update] ", "");
-	}
+    function englishOrdinalSuffix(n) {
+        if (n === 11 || n === 12 || n === 13) {
+            return 'th';
+        }
+        const mod10 = n % 10;
+        if (mod10 === 1) {
+            return 'st';
+        }
+        if (mod10 === 2) {
+            return 'nd';
+        }
+        if (mod10 === 3) {
+            return 'rd';
+        }
+        return 'th';
+    }
 
-	function formatCiteTweet(user, number, title, translation) {
-		title = cleanUpJapanese(title);
-		title = escapeSpecialCharacters(title);
-		translation = cleanUpEnglish(translation);
-		translation = escapeSpecialCharacters(translation);
-		if (title.length < 15) {
-			return `{{Cite tweet
+    function expandDateOfTweet() {
+        return waitForElement(TIMESTAMP_SELECTOR).then(timeElement => {
+            const original = timeElement.innerText;
+            const parts = original.split(" ");
+            const shortMonth = parts[3];
+            const dayOfMonth = parseInt(parts[4].split(",")[0]);
+            const newText = [
+                ...parts.slice(0, 3),
+                shortMonthToLongMonth[shortMonth],
+                dayOfMonth + englishOrdinalSuffix(dayOfMonth) + ",",
+                parts[5]
+            ].join(" ");
+            timeElement.innerText = newText;
+        });
+    }
+
+    function escapeSpecialCharacters(wikitext) {
+        return wikitext.replaceAll('#', '{{Hashtag}}').replaceAll('|', '{{!}}');
+    }
+
+    function cleanUpJapanese(title) {
+        return title.replaceAll("【更新】", "");
+    }
+
+    function cleanUpEnglish(translation) {
+        const titleMistranslations = [
+            "My Dangerous Girlfriend",
+            "My Dangerous Girl",
+            "My Dangerous Heart",
+            "My Dangerous Man",
+            "My Dangerous Wife",
+            "My Heart is Crazy",
+            "My Heart Yabai",
+            "My Heart's Bad Guy",
+            "The Bad Guy in My Heart",
+            "The Dangerous One in My Heart",
+            "The Dangerous Thing in My Heart"
+        ];
+        for (const mistranslation of titleMistranslations) {
+            translation = translation.replaceAll(mistranslation, "The Dangers in My Heart");
+        }
+        return translation
+            .replaceAll("#僕ヤバ", "#BokuYaba") // stays untranslated in hashtags
+            .replaceAll("[Update] ", "");
+    }
+
+    function formatCiteTweet(user, number, title, translation) {
+        title = cleanUpJapanese(title);
+        title = escapeSpecialCharacters(title);
+        translation = cleanUpEnglish(translation);
+        translation = escapeSpecialCharacters(translation);
+        if (title.length < 15) {
+            return `{{Cite tweet
 |user=${user} |number=${number} |title=${title} |translation=${translation}
 }}`;
-		}
-		return `{{Cite tweet
+        }
+        return `{{Cite tweet
 |user=${user} |number=${number}
 |title=${title}
 |translation=${translation}
 }}`;
-	}
+    }
 
-	function appendCiteTweetCopypasteBlock(translation) {
-		let container = document.getElementById(CITATION_BLOCK_ID);
-		if (container == null) {
-			container = document.createElement('div');
-			container.id = CITATION_BLOCK_ID;
-			appendToUserscriptContainer(container);
-		}
-		const parts = document.location.pathname.split('/');
-		const user = parts[1];
-		const number = parts[3];
-		waitForElement('section > h1 + div article [data-testid="tweetText"], ' +
-					   'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
-			const title = tweetTextElement.innerText;
-			const citeTweet = formatCiteTweet(user, number, title, translation);
-			container.replaceChildren(
-				createCopypasteBlock(`<ref>${citeTweet}</ref>`),
-				document.createElement('hr'),
-				createCopypasteBlock(` It was released with the teaser text ""<ref>${citeTweet}</ref>`)
-			);
-		});
-	}
+    function appendCiteTweetCopypasteBlock(translation) {
+        let container = document.getElementById(CITATION_BLOCK_ID);
+        if (container == null) {
+            container = document.createElement('div');
+            container.id = CITATION_BLOCK_ID;
+            appendToUserscriptContainer(container);
+        }
+        const parts = document.location.pathname.split('/');
+        const user = parts[1];
+        const number = parts[3];
+        waitForElement('section > h1 + div article [data-testid="tweetText"], ' +
+                       'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
+            const title = tweetTextElement.innerText;
+            const citeTweet = formatCiteTweet(user, number, title, translation);
+            const refCiteTweet = `<ref>${citeTweet}</ref>`;
+            const teaserText = ` It was released with the teaser text ""<ref>${citeTweet}</ref>`;
+            container.replaceChildren(
+                createCopypasteBlock(refCiteTweet),
+                createCopyButton('Copy ref', () => refCiteTweet),
+                document.createElement('hr'),
+                createCopypasteBlock(teaserText),
+                createCopyButton('Copy teaser', () => teaserText)
+            );
+        });
+    }
 
-	function clickTranslate() {
-		waitForElement('section > h1 + div article [data-testid="tweetText"] + button').then(translateButton => {
-			translateButton.click();
-			waitForElement('[aria-label="Hide translated post"]').then(hideTranslation => {
-				waitForElement('article .css-175oi2r.r-14gqq1x').then(translationDiv => {
-					const translation = translationDiv.querySelector('[data-testid="tweetText"]').innerText;
-					appendCiteTweetCopypasteBlock(translation);
-				});
-			});
-		});
-	}
+    function clickTranslate() {
+        waitForElement('section > h1 + div article [data-testid="tweetText"] + button').then(translateButton => {
+            translateButton.click();
+            waitForElement('[aria-label="Hide translated post"]').then(hideTranslation => {
+                waitForElement('article .css-175oi2r.r-14gqq1x').then(translationDiv => {
+                    const translation = translationDiv.querySelector('[data-testid="tweetText"]').innerText;
+                    appendCiteTweetCopypasteBlock(translation);
+                });
+            });
+        });
+    }
 
-	const USERNAMES = new Set([
-		'lovely_pig328',
-		'boku__yaba',
-		'pig_man1209',
-		'bokuyaba_anime',
-		'haika_nanasaka'
-	]);
+    const USERNAMES = new Set([
+        'lovely_pig328',
+        'boku__yaba',
+        'pig_man1209',
+        'bokuyaba_anime',
+        'haika_nanasaka'
+    ]);
 
-	if (document.location.pathname.includes('/status/')) {
-		const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
-		if (USERNAMES.has(username)) {
-			document.body.append(createUserscriptContainer());
-			appendAnnoucementTweetCopypasteBlock();
-			appendCiteTweetCopypasteBlock("");
-			// expandDateOfTweet();
-			clickTranslate();
-		}
-	}
+    if (document.location.pathname.includes('/status/')) {
+        const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
+        if (USERNAMES.has(username)) {
+            document.body.append(createUserscriptContainer());
+            appendUrlCopypasteBlock();
+            appendCiteTweetCopypasteBlock("");
+            // expandDateOfTweet();
+            clickTranslate();
+        }
+    }
 })();
