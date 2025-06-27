@@ -74,10 +74,9 @@
 		container.append(...children);
 	}
 
-	function appendAnnoucementTweetCopypasteBlock() {
+	function appendUrlCopypasteBlock() {
 		const url = 'https://twitter.com' + document.location.pathname;
-		const wikitext = `==Notes==\n* [${url} Announcement tweet]`;
-		appendToUserscriptContainer(createCopypasteBlock(wikitext));
+		appendToUserscriptContainer(createCopypasteBlock(url));
 	}
 
 	const shortMonthToLongMonth = {
@@ -221,7 +220,7 @@
 		const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
 		if (USERNAMES.has(username)) {
 			document.body.append(createUserscriptContainer());
-			appendAnnoucementTweetCopypasteBlock();
+			appendUrlCopypasteBlock();
 			appendCiteTweetCopypasteBlock("");
 			// expandDateOfTweet();
 
