@@ -68,10 +68,10 @@
 		return pre;
 	}
 
-	function appendToUserscriptContainer(child) {
+	function appendToUserscriptContainer(...children) {
 		const container = document.getElementById(USERSCRIPT_CONTAINER_ID);
 		container.append(document.createElement('hr'));
-		container.append(child);
+		container.append(...children);
 	}
 
 	function appendAnnoucementTweetCopypasteBlock() {
