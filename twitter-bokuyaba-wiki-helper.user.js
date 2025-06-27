@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      17
+// @version      18
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -218,7 +218,10 @@
 			appendAnnoucementTweetCopypasteBlock();
 			appendCiteTweetCopypasteBlock("");
 			// expandDateOfTweet();
-			clickTranslate();
+
+			// Commented out because Google Translate is gone, and Grok's buttons are different.
+			// We don't want Grok's translation anyway, because they are bad.
+			// clickTranslate();
 		}
 	}
 })();
