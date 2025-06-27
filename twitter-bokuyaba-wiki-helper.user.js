@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      18
+// @version      19
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -48,6 +48,12 @@
 	function info(...toLog) {
 		console.info(LOG_PREFIX, ...toLog);
 	}
+	function warn(...toLog) {
+		console.warn(LOG_PREFIX, ...toLog);
+	}
+	function error(...toLog) {
+		console.error(LOG_PREFIX, ...toLog);
+	}
 
 	function createUserscriptContainer() {
 		const div = document.createElement('div');
@@ -59,6 +65,30 @@
 		div.style.top = '1rem';
 		div.style.maxWidth = '45rem';
 		return div;
+	}
+
+	function createCopyElement(tagName, copyText, textSupplier) {
+		const elem = document.createElement(tagName);
+		elem.classList.add('r-sdzlij', 'r-3pj75a');
+		elem.style.color = 'white';
+		elem.style.backgroundColor = 'black';
+		elem.style.border = '1px white solid';
+		elem.style.padding = '0.5em 1em';
+		elem.href = '#';
+		elem.appendChild(document.createTextNode(copyText));
+		elem.onclick = e => {
+			e.preventDefault();
+			try {
+				navigator.clipboard.writeText(textSupplier());
+			} catch (e) {
+				error('navigator.clipboard is not supported:', e)
+			}
+		};
+		return elem;
+	}
+
+	function createCopyButton(buttonText, textSupplier) {
+		return createCopyElement('button', buttonText, textSupplier);
 	}
 
 	function createCopypasteBlock(text) {
@@ -76,7 +106,10 @@
 
 	function appendUrlCopypasteBlock() {
 		const url = 'https://twitter.com' + document.location.pathname;
-		appendToUserscriptContainer(createCopypasteBlock(url));
+		appendToUserscriptContainer(
+			createCopypasteBlock(url),
+			createCopyButton('Copy', () => url)
+		);
 	}
 
 	const shortMonthToLongMonth = {
@@ -188,10 +221,14 @@
 					   'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
 			const title = tweetTextElement.innerText;
 			const citeTweet = formatCiteTweet(user, number, title, translation);
+			const refCiteTweet = `<ref>${citeTweet}</ref>`;
+			const teaserText = ` It was released with the teaser text ""<ref>${citeTweet}</ref>`;
 			container.replaceChildren(
-				createCopypasteBlock(`<ref>${citeTweet}</ref>`),
+				createCopypasteBlock(refCiteTweet),
+				createCopyButton('Copy ref', () => refCiteTweet),
 				document.createElement('hr'),
-				createCopypasteBlock(` It was released with the teaser text ""<ref>${citeTweet}</ref>`)
+				createCopypasteBlock(teaserText),
+				createCopyButton('Copy teaser', () => teaserText)
 			);
 		});
 	}
