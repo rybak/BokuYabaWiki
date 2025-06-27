@@ -43,6 +43,12 @@
 	const USERSCRIPT_CONTAINER_ID = 'BokuYabaWikiHelper';
 	const CITATION_BLOCK_ID = 'BokuYabaWikiHelperCitation';
 
+	const LOG_PREFIX = '[BokuYaba Wiki]';
+
+	function info(...toLog) {
+		console.info(LOG_PREFIX, ...toLog);
+	}
+
 	function createUserscriptContainer() {
 		const div = document.createElement('div');
 		div.id = USERSCRIPT_CONTAINER_ID;
@@ -56,7 +62,7 @@
 	}
 
 	function createCopypasteBlock(text) {
-		console.info(text);
+		info(text);
 		const pre = document.createElement('pre');
 		pre.append(text);
 		return pre;
