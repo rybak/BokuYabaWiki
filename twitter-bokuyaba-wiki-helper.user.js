@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      19
+// @version      20
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -192,10 +192,11 @@
 
 	function formatCiteTweet(user, number, title, translation) {
 		title = cleanUpJapanese(title);
+		const originalLength = title.length;
 		title = escapeSpecialCharacters(title);
 		translation = cleanUpEnglish(translation);
 		translation = escapeSpecialCharacters(translation);
-		if (title.length < 15) {
+		if (originalLength < 15) {
 			return `{{Cite tweet
 |user=${user} |number=${number} |title=${title} |translation=${translation}
 }}`;
