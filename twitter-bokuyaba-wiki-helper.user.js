@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      20
+// @version      21
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -165,7 +165,7 @@
 	}
 
 	function cleanUpJapanese(title) {
-		return title.replaceAll("【更新】", "");
+		return title.replaceAll("【更新】", "").replace(/\n続き→(.|\n)*$/m, "");
 	}
 
 	function cleanUpEnglish(translation) {
