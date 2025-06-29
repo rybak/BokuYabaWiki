@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      21
+// @version      22
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -208,6 +208,16 @@
 }}`;
 	}
 
+	function extractTweetText(tweetTextElement) {
+		/*
+		 * .innerText for <span>s
+		 * .alt for emojis which are <img> tags
+		 */
+		return Array.from(tweetTextElement.childNodes)
+			.map(n => ((n.innerText || "") + (n.alt || "")))
+			.join("");
+	}
+
 	function appendCiteTweetCopypasteBlock(translation) {
 		let container = document.getElementById(CITATION_BLOCK_ID);
 		if (container == null) {
@@ -220,7 +230,7 @@
 		const number = parts[3];
 		waitForElement('section > h1 + div article [data-testid="tweetText"], ' +
 					   'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
-			const title = tweetTextElement.innerText;
+			const title = extractTweetText(tweetTextElement);
 			const citeTweet = formatCiteTweet(user, number, title, translation);
 			const refCiteTweet = `<ref>${citeTweet}</ref>`;
 			const teaserText = ` It was released with the teaser text ""<ref>${citeTweet}</ref>`;
