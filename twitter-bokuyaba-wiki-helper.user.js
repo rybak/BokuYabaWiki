@@ -292,9 +292,9 @@
 		const button = createCopyButton('Copy cite params', () => {
 			const shortDate = document.location.pathname.slice(5, 5+8);
 			const date = shortDate.slice(0, 4) + '-' + shortDate.slice(4, 6) + '-' + shortDate.slice(6, 8);
-			const params = `|archive-url=${document.location.href}
-|archive-date=${date}
-`
+			const params = `
+|archive-url=${document.location.href}
+|archive-date=${date}`
 			return params;
 		});
 		button.style.zIndex = 10000;
