@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      23
+// @version      24
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
 // @match        https://x.com/*
+// @match        https://web.archive.org/*
 // @icon         https://abs.twimg.com/favicons/twitter.2.ico
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @grant        none
@@ -286,8 +287,31 @@
 		}
 	}
 
+	function waybackMachine() {
+		info('Loading for the Wayback Machine...');
+		const button = createCopyButton('Copy cite params', () => {
+			const shortDate = document.location.pathname.slice(5, 5+8);
+			const date = shortDate.slice(0, 4) + '-' + shortDate.slice(4, 6) + '-' + shortDate.slice(6, 8);
+			const params = `|archive-url=${document.location.href}
+|archive-date=${date}
+`
+			return params;
+		});
+		button.style.zIndex = 10000;
+		button.style.position = 'fixed';
+		button.style.bottom = '5rem';
+		button.style.left = '5rem';
+		setTimeout(() => {
+			document.body.append(button);
+		}, 1000);
+	}
+
 	if (document.location.hostname == 'x.com') {
 		twitter();
+		return;
+	}
+	if (document.location.hostname == 'web.archive.org') {
+		waybackMachine();
 		return;
 	}
 })();
