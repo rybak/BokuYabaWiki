@@ -259,25 +259,35 @@
 		});
 	}
 
-	const USERNAMES = new Set([
-		'lovely_pig328',
-		'boku__yaba',
-		'pig_man1209',
-		'bokuyaba_anime',
-		'haika_nanasaka'
-	]);
+	function twitter() {
+		info('Loading for Twitter...');
+		const USERNAMES = new Set([
+			'lovely_pig328',
+			'boku__yaba',
+			'pig_man1209',
+			'bokuyaba_anime',
+			'haika_nanasaka'
+		]);
 
-	if (document.location.pathname.includes('/status/')) {
-		const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
-		if (USERNAMES.has(username)) {
-			document.body.append(createUserscriptContainer());
-			appendUrlCopypasteBlock();
-			appendCiteTweetCopypasteBlock("");
-			// expandDateOfTweet();
+		if (document.location.pathname.includes('/status/')) {
+			const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
+			if (USERNAMES.has(username)) {
+				document.body.append(createUserscriptContainer());
+				appendUrlCopypasteBlock();
+				appendCiteTweetCopypasteBlock("");
+				// expandDateOfTweet();
 
-			// Commented out because Google Translate is gone, and Grok's buttons are different.
-			// We don't want Grok's translation anyway, because they are bad.
-			// clickTranslate();
+				// Commented out because Google Translate is gone, and Grok's buttons are different.
+				// We don't want Grok's translation anyway, because they are bad.
+				// clickTranslate();
+			} else {
+				info('https://vxtwitter.com' + document.location.pathname);
+			}
 		}
+	}
+
+	if (document.location.hostname == 'x.com') {
+		twitter();
+		return;
 	}
 })();
