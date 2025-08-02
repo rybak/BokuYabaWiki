@@ -166,7 +166,7 @@
 
 	function cleanUpJapanese(title) {
 		return title.replaceAll("【更新】", "")
-			.replace(/\n続き→(.|\n)*$/m, "")
+			.replace(/\n続き→?(.|\n)*$/m, "")
 			.replaceAll('\n', '\u3000')
 			.replaceAll(/\u3000+/g, '\u3000');
 	}
