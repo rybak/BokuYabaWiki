@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      25
+// @version      26
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
 // @match        https://x.com/*
 // @match        https://web.archive.org/*
+// @match        https://archive.ph/*
 // @icon         https://abs.twimg.com/favicons/twitter.2.ico
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @grant        none
@@ -46,14 +47,17 @@
 
 	const LOG_PREFIX = '[BokuYaba Wiki]';
 
-	function info(...toLog) {
-		console.info(LOG_PREFIX, ...toLog);
+	function error(...toLog) {
+		console.error(LOG_PREFIX, ...toLog);
 	}
 	function warn(...toLog) {
 		console.warn(LOG_PREFIX, ...toLog);
 	}
-	function error(...toLog) {
-		console.error(LOG_PREFIX, ...toLog);
+	function info(...toLog) {
+		console.info(LOG_PREFIX, ...toLog);
+	}
+	function debug(...toLog) {
+		console.debug(LOG_PREFIX, ...toLog);
 	}
 
 	function createUserscriptContainer() {
@@ -308,12 +312,25 @@
 		}, 1000);
 	}
 
+	function archiveToday() {
+		info('Loading for archive.today...');
+		waitForElement('#SHARE_WIKICODE').then(textarea => {
+			//debug(textarea.value);
+			textarea.value = textarea.value.replaceAll('^ ', '').replaceAll(' \| archiveurl  = ', '|archive-url=').replaceAll(' \| archivedate = ', '|archive-date=').replaceAll(' }}', '\n}}');
+			debug(textarea.value);
+		});
+	}
+
 	if (document.location.hostname == 'x.com') {
 		twitter();
 		return;
 	}
 	if (document.location.hostname == 'web.archive.org') {
 		waybackMachine();
+		return;
+	}
+	if (document.location.hostname == 'archive.ph') { // the most popular archive.today host?
+		archiveToday();
 		return;
 	}
 })();
