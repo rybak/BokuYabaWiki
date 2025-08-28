@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      28
+// @version      29
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -243,12 +243,14 @@
 			const title = extractTweetText(tweetTextElement);
 			const citeTweet = formatCiteTweet(user, number, title, translation);
 			const refCiteTweet = `<ref>${citeTweet}</ref>`;
+			const sandboxListItemTweet = `* ${citeTweet}`;
 			const teaserTranslation = "The latest episode of the adolescent romantic comedy \"The Dangers in My Heart\" has been updated. ";
 			const teaserRefCite = formatCiteTweet(user, number, title, teaserTranslation)
 			const teaserText = ` It was released with the teaser texts "" and "".<ref>${teaserRefCite}</ref>`;
 			container.replaceChildren(
 				createCopypasteBlock(refCiteTweet),
 				createCopyButton('Copy ref', () => refCiteTweet),
+				createCopyButton('Copy for sandbox', () => sandboxListItemTweet),
 				document.createElement('hr'),
 				createCopypasteBlock(teaserText),
 				createCopyButton('Copy teaser', () => teaserText)
