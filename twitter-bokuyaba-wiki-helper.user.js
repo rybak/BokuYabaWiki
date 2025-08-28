@@ -245,7 +245,7 @@
 			const refCiteTweet = `<ref>${citeTweet}</ref>`;
 			const teaserTranslation = "The latest episode of the adolescent romantic comedy \"The Dangers in My Heart\" has been updated. ";
 			const teaserRefCite = formatCiteTweet(user, number, title, teaserTranslation)
-			const teaserText = ` It was released with the teaser text "".<ref>${teaserRefCite}</ref>`;
+			const teaserText = ` It was released with the teaser texts "" and "".<ref>${teaserRefCite}</ref>`;
 			container.replaceChildren(
 				createCopypasteBlock(refCiteTweet),
 				createCopyButton('Copy ref', () => refCiteTweet),
