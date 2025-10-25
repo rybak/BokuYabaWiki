@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      30
+// @version      31
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -227,6 +227,14 @@
 			.join("");
 	}
 
+	function automaticTranslation(user, title) {
+		debug('automaticTranslation:', title);
+		if (user === 'boku__yaba' && title.includes("『僕の心のヤバイやつ』Karte.")) {
+			return `"The Dangers in My Heart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
+		}
+		return "";
+	}
+
 	function formatTeaserTranslation(title) {
 		if (title.includes("おねヤバ")) {
 			// using template substitution with functions from https://bokuyaba.fandom.com/wiki/Module:Chapter
@@ -238,9 +246,9 @@
 
 	function formatTeaserText(title, teaserRefCite) {
 		if (title.includes("おねヤバ")) {
-			return ` It was released with the teaser text "".<ref>${teaserRefCite}</ref>`;
+			return ` It was released with the teaser text "".{{safesubst:#tag:ref|${teaserRefCite}}}`;
 		} else {
-			return ` It was released with the teaser texts "" and "".<ref>${teaserRefCite}</ref>`;
+			return ` It was released with the teaser texts "" and "".{{safesubst:#tag:ref|${teaserRefCite}}}`;
 		}
 	}
 
@@ -257,8 +265,11 @@
 		waitForElement('section > h1 + div article [data-testid="tweetText"], ' +
 					   'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
 			const title = extractTweetText(tweetTextElement);
+			if (translation == undefined || translation.length === 0) {
+				translation = automaticTranslation(user, title);
+			}
 			const citeTweet = formatCiteTweet(user, number, title, translation);
-			const refCiteTweet = `<ref>${citeTweet}</ref>`;
+			const refCiteTweet = `{{safesubst:#tag:ref|${citeTweet}}}`;
 			const sandboxListItemTweet = `* ${citeTweet}`;
 			const teaserTranslation = formatTeaserTranslation(title);
 			const teaserRefCite = formatCiteTweet(user, number, title, teaserTranslation);
