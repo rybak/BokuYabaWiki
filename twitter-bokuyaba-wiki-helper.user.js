@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      29
+// @version      30
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -205,7 +205,6 @@
 		const originalLength = title.length;
 		title = escapeSpecialCharacters(title);
 		translation = cleanUpEnglish(translation);
-		translation = escapeSpecialCharacters(translation);
 		if (originalLength < 15) {
 			return `{{Cite tweet
 |user=${user} |number=${number} |title=${title} |translation=${translation}
@@ -228,6 +227,23 @@
 			.join("");
 	}
 
+	function formatTeaserTranslation(title) {
+		if (title.includes("おねヤバ")) {
+			// using template substitution with functions from https://bokuyaba.fandom.com/wiki/Module:Chapter
+			return "{{Brackets|🎧 #OneYaba latest episode updated 🎧}} #BokuYabaSpinoff \"Rabukomedi ga Hajimaranai\" Score.0{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available! ";
+		} else {
+			return "The latest episode of the adolescent romantic comedy \"The Dangers in My Heart\" has been updated. ";
+		}
+	}
+
+	function formatTeaserText(title, teaserRefCite) {
+		if (title.includes("おねヤバ")) {
+			return ` It was released with the teaser text "".<ref>${teaserRefCite}</ref>`;
+		} else {
+			return ` It was released with the teaser texts "" and "".<ref>${teaserRefCite}</ref>`;
+		}
+	}
+
 	function appendCiteTweetCopypasteBlock(translation) {
 		let container = document.getElementById(CITATION_BLOCK_ID);
 		if (container == null) {
@@ -244,9 +260,9 @@
 			const citeTweet = formatCiteTweet(user, number, title, translation);
 			const refCiteTweet = `<ref>${citeTweet}</ref>`;
 			const sandboxListItemTweet = `* ${citeTweet}`;
-			const teaserTranslation = "The latest episode of the adolescent romantic comedy \"The Dangers in My Heart\" has been updated. ";
-			const teaserRefCite = formatCiteTweet(user, number, title, teaserTranslation)
-			const teaserText = ` It was released with the teaser texts "" and "".<ref>${teaserRefCite}</ref>`;
+			const teaserTranslation = formatTeaserTranslation(title);
+			const teaserRefCite = formatCiteTweet(user, number, title, teaserTranslation);
+			const teaserText = formatTeaserText(title, teaserRefCite);
 			container.replaceChildren(
 				createCopypasteBlock(refCiteTweet),
 				createCopyButton('Copy ref', () => refCiteTweet),
