@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      31
+// @version      32
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -235,8 +235,12 @@
 		return "";
 	}
 
+	function isOneyaba(title) {
+		return title.includes("おねヤバ") || title.includes("僕ヤバスピンオフ");
+	}
+
 	function formatTeaserTranslation(title) {
-		if (title.includes("おねヤバ")) {
+		if (isOneyaba(title)) {
 			// using template substitution with functions from https://bokuyaba.fandom.com/wiki/Module:Chapter
 			return "{{Brackets|🎧 #OneYaba latest episode updated 🎧}} #BokuYabaSpinoff \"Rabukomedi ga Hajimaranai\" Score.0{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available! ";
 		} else {
@@ -245,8 +249,8 @@
 	}
 
 	function formatTeaserText(title, teaserRefCite) {
-		if (title.includes("おねヤバ")) {
-			return ` It was released with the teaser text "".{{safesubst:#tag:ref|${teaserRefCite}}}`;
+		if (isOneyaba(title)) {
+			return ` It was released with the teaser text ""{{safesubst:#tag:ref|${teaserRefCite}}}`;
 		} else {
 			return ` It was released with the teaser texts "" and "".{{safesubst:#tag:ref|${teaserRefCite}}}`;
 		}
