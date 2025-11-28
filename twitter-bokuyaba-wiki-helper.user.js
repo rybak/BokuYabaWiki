@@ -274,7 +274,7 @@
 			}
 			const citeTweet = formatCiteTweet(user, number, title, translation);
 			const refCiteTweet = `{{safesubst:#tag:ref|${citeTweet}}}`;
-			const sandboxListItemTweet = `* ${citeTweet}`;
+			const sandboxListItemTweet = `* ${citeTweet}\n`;
 			const teaserTranslation = formatTeaserTranslation(title);
 			const teaserRefCite = formatCiteTweet(user, number, title, teaserTranslation);
 			const teaserText = formatTeaserText(title, teaserRefCite);
