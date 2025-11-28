@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      32
+// @version      33
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -174,7 +174,7 @@
 			.replace(/\n続き→?(.|\n)*$/m, "")
 			.replaceAll('\n', '\u3000')
 			.replaceAll(/\u3000+/g, '\u3000')
-			.replace(/https:\/\/.*$/, "")
+			.replace(/https?:\/\/.*$/, "")
 			.replace(/\u3000$/, "");
 	}
 
