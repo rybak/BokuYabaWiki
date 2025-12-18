@@ -47,6 +47,15 @@
 
 	const LOG_PREFIX = '[BokuYaba Wiki]';
 
+	const USERNAMES = new Set([
+		'lovely_pig328',
+		'boku__yaba',
+		'pig_man1209',
+		'bokuyaba_anime',
+		'haika_nanasaka',
+		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
+	]);
+
 	function error(...toLog) {
 		console.error(LOG_PREFIX, ...toLog);
 	}
@@ -303,13 +312,6 @@
 
 	function twitter() {
 		info('Loading for Twitter...');
-		const USERNAMES = new Set([
-			'lovely_pig328',
-			'boku__yaba',
-			'pig_man1209',
-			'bokuyaba_anime',
-			'haika_nanasaka'
-		]);
 
 		if (document.location.pathname.includes('/status/')) {
 			const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
