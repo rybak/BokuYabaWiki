@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      34
+// @version      35
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -353,8 +353,14 @@
 	function archiveToday() {
 		info('Loading for archive.today...');
 		waitForElement('#SHARE_WIKICODE').then(textarea => {
+			const longLinkUrl = document.getElementById('SHARE_LONGLINK').value;
 			//debug(textarea.value);
-			textarea.value = textarea.value.replaceAll('^ ', '').replaceAll(' \| archiveurl  = ', '|archive-url=').replaceAll(' \| archivedate = ', '|archive-date=').replaceAll(' }}', '\n}}');
+			textarea.value = textarea.value
+				.replaceAll('^ ', '')
+				.replace(' \| archiveurl  = ', '|archive-url=')
+				.replace(' \| archivedate = ', '|archive-date=')
+				.replace(/[|]archive-url=.*$/gm, `|archiveurl=${longLinkUrl}`)
+				.replace(' }}', '\n}}');
 			debug(textarea.value);
 		});
 	}
