@@ -14,7 +14,7 @@
 // ==/UserScript==
 
 /*
- * Copyright (c) 2024-2025 Andrei Rybak
+ * Copyright (c) 2024-2026 Andrei Rybak
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,6 +54,7 @@
 		'bokuyaba_anime',
 		'haika_nanasaka',
 		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
+		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin',
 	]);
 
 	function error(...toLog) {
