@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      35
+// @version      36
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -121,6 +121,13 @@
 
 	function appendUrlCopypasteBlock() {
 		const url = 'https://twitter.com' + document.location.pathname;
+		appendToUserscriptContainer(
+			createCopypasteBlock(url),
+			createCopyButton('Copy', () => url)
+		);
+	}
+	function appendNitterCopypasteBlock() {
+		const url = 'https://nitter.net' + document.location.pathname;
 		appendToUserscriptContainer(
 			createCopypasteBlock(url),
 			createCopyButton('Copy', () => url)
@@ -316,9 +323,10 @@
 
 		if (document.location.pathname.includes('/status/')) {
 			const username = document.location.pathname.match(/[/]([^/]+)[/]/)[1];
+			document.body.append(createUserscriptContainer());
 			if (USERNAMES.has(username)) {
-				document.body.append(createUserscriptContainer());
 				appendUrlCopypasteBlock();
+				appendNitterCopypasteBlock();
 				appendCiteTweetCopypasteBlock("");
 				// expandDateOfTweet();
 
@@ -326,6 +334,8 @@
 				// We don't want Grok's translation anyway, because they are bad.
 				// clickTranslate();
 			} else {
+				appendUrlCopypasteBlock();
+				appendNitterCopypasteBlock();
 				info('https://vxtwitter.com' + document.location.pathname);
 			}
 		}
