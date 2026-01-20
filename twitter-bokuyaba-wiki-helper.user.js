@@ -54,7 +54,7 @@
 		'bokuyaba_anime',
 		'haika_nanasaka',
 		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
-		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin',
+		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin', 'ikebukurobs_gm',
 	]);
 
 	function error(...toLog) {
