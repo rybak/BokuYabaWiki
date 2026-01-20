@@ -369,7 +369,8 @@
 				.replaceAll('^ ', '')
 				.replace(' \| archiveurl  = ', '|archive-url=')
 				.replace(' \| archivedate = ', '|archive-date=')
-				.replace(/[|]archive-url=.*$/gm, `|archiveurl=${longLinkUrl}`)
+				.replace(/[|]archive-url=.*$/gm, `|archive-url=${longLinkUrl}`)
+				.replaceAll('http://', 'https://')
 				.replace(' }}', '\n}}');
 			debug(textarea.value);
 		});
