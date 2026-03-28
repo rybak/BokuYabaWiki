@@ -83,15 +83,20 @@
 		return div;
 	}
 
-	function createCopyElement(tagName, copyText, textSupplier) {
+	function createButtonElement(tagName, buttonText) {
 		const elem = document.createElement(tagName);
 		elem.classList.add('r-sdzlij', 'r-3pj75a');
 		elem.style.color = 'white';
 		elem.style.backgroundColor = 'black';
 		elem.style.border = '1px white solid';
 		elem.style.padding = '0.5em 1em';
+		elem.appendChild(document.createTextNode(buttonText));
+		return elem;
+	}
+
+	function createCopyElement(tagName, copyText, textSupplier) {
+		const elem = createButtonElement(tagName, copyText);
 		elem.href = '#';
-		elem.appendChild(document.createTextNode(copyText));
 		elem.onclick = e => {
 			e.preventDefault();
 			try {
