@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      38
+// @version      39
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -112,6 +112,13 @@
 		return createCopyElement('button', buttonText, textSupplier);
 	}
 
+	function createLinkButton(buttonText, url) {
+		const b = createButtonElement('a', buttonText);
+		b.href = url;
+		b.setAttribute('target', "_blank");
+		return b;
+	}
+
 	function createCopypasteBlock(text) {
 		info(text);
 		const pre = document.createElement('pre');
@@ -129,7 +136,8 @@
 		const url = 'https://twitter.com' + document.location.pathname;
 		appendToUserscriptContainer(
 			createCopypasteBlock(url),
-			createCopyButton('Copy', () => url)
+			createCopyButton('Copy', () => url),
+			createLinkButton('Wayback Machine', 'https://web.archive.org/web/2/' + document.location.href)
 		);
 	}
 	function appendNitterCopypasteBlock() {
