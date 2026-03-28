@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      37
+// @version      38
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -77,7 +77,7 @@
 		div.style.padding = '0 2rem';
 		div.style.zIndex = 1000;
 		div.style.right = '1rem';
-		div.style.position = 'absolute';
+		div.style.position = 'fixed';
 		div.style.top = '1rem';
 		div.style.maxWidth = '45rem';
 		return div;
