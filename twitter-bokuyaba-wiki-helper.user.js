@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      39
+// @version      40
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -56,6 +56,7 @@
 		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
 		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin', 'ikebukurobs_gm',
 		'TOEI_PR', // anime distributor or smth
+		'caoryu_YS', // Sonoka Maeda -- animation director, animator, story boarder
 	]);
 
 	function error(...toLog) {
