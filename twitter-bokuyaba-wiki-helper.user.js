@@ -8,7 +8,7 @@
 // @match        https://x.com/*
 // @match        https://web.archive.org/*
 // @icon         https://abs.twimg.com/favicons/twitter.2.ico
-// @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
+// @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@dc32d5897dcfa40a01c371c8ee0e211162dfd24c/waitForElement.js
 // @grant        none
 // ==/UserScript==
 
