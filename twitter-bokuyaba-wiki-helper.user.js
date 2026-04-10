@@ -132,12 +132,16 @@
 		container.append(...children);
 	}
 
+	function waybackMachineNewestUrl(url) {
+		return 'https://web.archive.org/web/2/' + url;
+	}
+
 	function appendUrlCopypasteBlock() {
 		const url = 'https://twitter.com' + document.location.pathname;
 		appendToUserscriptContainer(
 			createCopypasteBlock(url),
 			createCopyButton('Copy', () => url),
-			createLinkButton('Wayback Machine', 'https://web.archive.org/web/2/' + document.location.href)
+			createLinkButton('Wayback Machine', waybackMachineNewestUrl(document.location.href))
 		);
 	}
 	function appendNitterCopypasteBlock() {
