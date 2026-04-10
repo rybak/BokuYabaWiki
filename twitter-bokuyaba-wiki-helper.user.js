@@ -7,7 +7,6 @@
 // @license      MIT
 // @match        https://x.com/*
 // @match        https://web.archive.org/*
-// @match        https://archive.ph/*
 // @icon         https://abs.twimg.com/favicons/twitter.2.ico
 // @require      https://cdn.jsdelivr.net/gh/rybak/userscript-libs@e86c722f2c9cc2a96298c8511028f15c45180185/waitForElement.js
 // @grant        none
@@ -378,32 +377,12 @@
 		}, 1000);
 	}
 
-	function archiveToday() {
-		info('Loading for archive.today...');
-		waitForElement('#SHARE_WIKICODE').then(textarea => {
-			const longLinkUrl = document.getElementById('SHARE_LONGLINK').value;
-			//debug(textarea.value);
-			textarea.value = textarea.value
-				.replaceAll('^ ', '')
-				.replace(' \| archiveurl  = ', '|archive-url=')
-				.replace(' \| archivedate = ', '|archive-date=')
-				.replace(/[|]archive-url=.*$/gm, `|archive-url=${longLinkUrl}`)
-				.replaceAll('http://', 'https://')
-				.replace(' }}', '\n}}');
-			debug(textarea.value);
-		});
-	}
-
 	if (document.location.hostname == 'x.com') {
 		twitter();
 		return;
 	}
 	if (document.location.hostname == 'web.archive.org') {
 		waybackMachine();
-		return;
-	}
-	if (document.location.hostname == 'archive.ph') { // the most popular archive.today host?
-		archiveToday();
 		return;
 	}
 })();
