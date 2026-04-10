@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      40
+// @version      41
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -115,7 +115,7 @@
 	function createLinkButton(buttonText, url) {
 		const b = createButtonElement('a', buttonText);
 		b.href = url;
-		b.setAttribute('target', "_blank");
+		// b.setAttribute('target', "_blank");
 		return b;
 	}
 
