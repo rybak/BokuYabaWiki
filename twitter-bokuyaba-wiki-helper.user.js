@@ -394,7 +394,7 @@
 		waitForElement('.mw-references-wrap').then(references => {
 			const REFS_WITH_NO_ARCHIVE = 'li:has(a[href^="http"]):not(:has(a[href^="https://web.archive.org"]))';
 			references.querySelectorAll(REFS_WITH_NO_ARCHIVE).forEach(ref => {
-				ref.style.backgroundColor = 'grey';
+				ref.style.outline = '2px dashed grey';
 				/*
 				 * all links except the "arrow up" link that goes back up to the [number]
 				 * of the inline citation in the article's prose
