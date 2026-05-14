@@ -242,15 +242,9 @@
 		title = escapeSpecialCharacters(title);
 		translation = cleanUpEnglish(translation);
 		if (originalLength < 15) {
-			return `{{Cite tweet
-|user=${user} |number=${number} |title=${title} |translation=${translation}
-}}`;
+			return `{{Cite tweet |user=${user} |number=${number} |title=${title} |translation=${translation} }}`;
 		}
-		return `{{Cite tweet
-|user=${user} |number=${number}
-|title=${title}
-|translation=${translation}
-}}`;
+		return `{{Cite tweet |user=${user} |number=${number} |title=${title} |translation=${translation} }}`;
 	}
 
 	function extractTweetText(tweetTextElement) {
