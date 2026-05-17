@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      45
+// @version      46
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -238,7 +238,7 @@
 	}
 
 	// https://stackoverflow.com/a/14608823
-	const ASCII_REGEX = /([ -~]|\n)*/gm;
+	const ASCII_REGEX = /^([ -~（）]|\n)*$/gm;
 	function isEnglishOnly(text) {
 		// https://stackoverflow.com/a/6603043/1083697
 		return ASCII_REGEX.test(text);
