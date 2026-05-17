@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      44
+// @version      45
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -237,13 +237,21 @@
 			.replaceAll("[Update] ", "");
 	}
 
+	// https://stackoverflow.com/a/14608823
+	const ASCII_REGEX = /([ -~]|\n)*/gm;
+	function isEnglishOnly(text) {
+		// https://stackoverflow.com/a/6603043/1083697
+		return ASCII_REGEX.test(text);
+	}
+
 	function formatCiteTweet(user, number, title, translation) {
 		title = cleanUpJapanese(title);
 		const originalLength = title.length;
 		title = escapeSpecialCharacters(title);
 		translation = cleanUpEnglish(translation);
-		if (originalLength < 15) {
-			return `{{Cite tweet |user=${user} |number=${number} |title=${title} |translation=${translation} }}`;
+
+		if (isEnglishOnly(title)) {
+			return `{{Cite tweet |user=${user} |number=${number} |title=${title} }}`;
 		}
 		return `{{Cite tweet |user=${user} |number=${number} |title=${title} |translation=${translation} }}`;
 	}
