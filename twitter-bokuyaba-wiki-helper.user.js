@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      47
+// @version      48
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -286,7 +286,7 @@
 	function formatTeaserTranslation(title) {
 		if (isOneyaba(title)) {
 			// using template substitution with functions from https://bokuyaba.fandom.com/wiki/Module:Chapter
-			return "{{Brackets|🎧 #OneYaba latest episode updated 🎧}} #BokuYabaSpinoff \"The Romantic Comedy Won't Start\" Score.{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available! ";
+			return "{{Hashtag}}BokuYabaSpinoff \"The Romantic Comedy Won't Start\" Score.{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available! ";
 		} else {
 			return "The latest episode of the adolescent romantic comedy \"The Dangers in My Heart\" has been updated. ";
 		}
