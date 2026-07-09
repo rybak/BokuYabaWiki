@@ -56,6 +56,7 @@
 		'sakurainorioEX',
 		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
 		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin', 'ikebukurobs_gm',
+		'wg_6603', // WonderGOO store
 		'TOEI_PR', // anime distributor or smth
 		'caoryu_YS', // Sonoka Maeda -- animation director, animator, story boarder
 		'championcrossPR',
