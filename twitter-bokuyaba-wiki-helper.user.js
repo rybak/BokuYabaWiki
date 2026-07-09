@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      48
+// @version      49
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -276,6 +276,13 @@
 			 title.includes("『僕の心のヤバイやつ』karte.")))
 		{
 			return `"The Dangers in My Heart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
+		}
+		if (user === 'boku__yaba' &&
+			(title.includes("『#僕の心のヤバイやつ』Karte.") ||
+			 title.includes("『#僕の心のヤバイや』karte.") ||
+			 title.includes("『#僕の心のヤバイやつ』karte.")))
+		{
+			return `"#TheDangersInMyHeart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
 		}
 		return "";
 	}
