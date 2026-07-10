@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      49
+// @version      50
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -136,6 +136,10 @@
 		container.append(...children);
 	}
 
+	function waybackMachineOldestUrl(url) {
+		return 'https://web.archive.org/web/0/' + url;
+	}
+
 	function waybackMachineNewestUrl(url) {
 		return 'https://web.archive.org/web/2/' + url;
 	}
@@ -145,7 +149,8 @@
 		appendToUserscriptContainer(
 			createCopypasteBlock(url),
 			createCopyButton('Copy', () => url),
-			createLinkButton('Wayback Machine', waybackMachineNewestUrl(url)),
+			createLinkButton('Wayback...', waybackMachineOldestUrl(url)),
+			createLinkButton('...Machine', waybackMachineNewestUrl(url)),
 		);
 	}
 	function appendNitterCopypasteBlock() {
