@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      50
+// @version      51
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -407,29 +407,32 @@
 	}
 
 	function fandom() {
-		waitForElement('.mw-references-wrap').then(references => {
-			const REFS_WITH_NO_ARCHIVE = 'li:has(a[href^="http"]):not(:has(a[href^="https://web.archive.org"]))';
-			references.querySelectorAll(REFS_WITH_NO_ARCHIVE).forEach(ref => {
-				ref.style.outline = '2px dashed grey';
-				/*
-				 * all links except the "arrow up" link that goes back up to the [number]
-				 * of the inline citation in the article's prose
-				 */
-				ref.querySelectorAll('a[href^="http"]').forEach(link => {
-					if (link.href.includes('.fandom.com')) {
-						// often refs have links directly back to the wiki itself
-						return;
-					}
-					appendWaybackMachineLink(link)
-				});
-
-				if (ref.querySelector('a[href^="https://www.pixiv.net"]')) {
+		const REFERENCES_BLOCK_SELECTOR = '.mw-references-wrap';
+		waitForElement(REFERENCES_BLOCK_SELECTOR).then(ignored => {
+			document.querySelectorAll(REFERENCES_BLOCK_SELECTOR).forEach(references => {
+				const REFS_WITH_NO_ARCHIVE = 'li:has(a[href^="http"]):not(:has(a[href^="https://web.archive.org"]))';
+				references.querySelectorAll(REFS_WITH_NO_ARCHIVE).forEach(ref => {
+					ref.style.outline = '2px dashed grey';
 					/*
-					 * Pixiv doesn't archive well (or at all) to web.archive.org
-					 * So distinguish it with a different color.
+					 * all links except the "arrow up" link that goes back up to the [number]
+					 * of the inline citation in the article's prose
 					 */
-					ref.style.backgroundColor = 'DarkSlateGray';
-				}
+					ref.querySelectorAll('a[href^="http"]').forEach(link => {
+						if (link.href.includes('.fandom.com')) {
+							// often refs have links directly back to the wiki itself
+							return;
+						}
+						appendWaybackMachineLink(link)
+					});
+
+					if (ref.querySelector('a[href^="https://www.pixiv.net"]')) {
+						/*
+						 * Pixiv doesn't archive well (or at all) to web.archive.org
+						 * So distinguish it with a different color.
+						 */
+						ref.style.backgroundColor = 'DarkSlateGray';
+					}
+				});
 			});
 		});
 	}
