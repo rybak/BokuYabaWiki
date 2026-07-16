@@ -401,7 +401,7 @@
 	function appendWaybackMachineLink(link) {
 		const url = link.href;
 		const newLink = document.createElement('a');
-		newLink.href = waybackMachineNewestUrl(url);
+		newLink.href = waybackMachineOldestUrl(url);
 		newLink.append('🗄️');
 		link.insertAdjacentElement('afterend', newLink);
 	}
