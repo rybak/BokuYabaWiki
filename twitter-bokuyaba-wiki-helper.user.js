@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      51
+// @version      52
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -275,19 +275,24 @@
 
 	function automaticTranslation(user, title) {
 		debug('automaticTranslation:', title);
-		if (user === 'boku__yaba' &&
-			(title.includes("『僕の心のヤバイやつ』Karte.") ||
-			 title.includes("『僕の心のヤバイや』karte.") ||
-			 title.includes("『僕の心のヤバイやつ』karte.")))
-		{
-			return `"The Dangers in My Heart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
-		}
-		if (user === 'boku__yaba' &&
-			(title.includes("『#僕の心のヤバイやつ』Karte.") ||
-			 title.includes("『#僕の心のヤバイや』karte.") ||
-			 title.includes("『#僕の心のヤバイやつ』karte.")))
-		{
-			return `"#TheDangersInMyHeart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
+		if (user === 'boku__yaba') {
+			if (title.includes("『僕の心のヤバイやつ』Karte.") ||
+				title.includes("『僕の心のヤバイや』karte.") ||
+				title.includes("『僕の心のヤバイやつ』karte."))
+			{
+				return `"The Dangers in My Heart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
+			}
+			if (title.includes("『#僕の心のヤバイやつ』Karte.") ||
+				title.includes("『#僕の心のヤバイや』karte.") ||
+				title.includes("『#僕の心のヤバイやつ』karte."))
+			{
+				return `"#TheDangersInMyHeart" Karte.{{subst:#invoke:Chapter|detectChapterNumber}} "{{subst:#invoke:Chapter|detectChapterTitle}}" is now available! `;
+			}
+			const maybeWithNumbers = /「僕の心のヤバイやつ」最新([0-9]+)話マンガクロスにて更新！/.exec(title);
+			if (maybeWithNumbers !== null) {
+				const chapterNumber = maybeWithNumbers[1];
+				return `The latest chapter ${chapterNumber} of "The Dangers in My Heart" has been released on Manga Cross! `;
+			}
 		}
 		return "";
 	}
@@ -301,7 +306,12 @@
 			// using template substitution with functions from https://bokuyaba.fandom.com/wiki/Module:Chapter
 			return "{{Hashtag}}BokuYabaSpinoff \"The Romantic Comedy Won't Start\" Score.{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available! ";
 		} else {
-			return "The latest episode of the adolescent romantic comedy \"The Dangers in My Heart\" has been updated. ";
+			const maybeWithNumbers = /思春期ラブコメ「僕の心のヤバイやつ」([0-9]+)話が更新されました。/.exec(title);
+			if (maybeWithNumbers !== null) {
+				const chapterNumber = maybeWithNumbers[1];
+				return `The latest chapter ${chapterNumber} of the adolescent romantic comedy "The Dangers in My Heart" has been released.`;
+			}
+			return "The latest chapter of the adolescent romantic comedy \"The Dangers in My Heart\" has been released. ";
 		}
 	}
 
