@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         Wikimedia: external wikilink generator
 // @namespace    https://andrybak.dev
-// @version      7
+// @version      8
 // @description  Adds a portlet link to copy an external wikilink to the clipboard.
 // @author       Andrei Rybak
 // @license      MIT
 // @match        https://*.wikipedia.org/wiki/*
 // @match        https://*.wikipedia.org/w/index.php?title=*
-// @match        https://en.wiktionary.org/wiki/*
+// @match        https://*.wiktionary.org/wiki/*
 // @match        https://en.wikisource.org/wiki/*
 // @match        https://commons.wikimedia.org/wiki/*
 // @match        https://commons.wikimedia.org/w/index.php?title=*
@@ -44,8 +44,7 @@
 	'use strict';
 
 	const USERSCRIPT_NAME = 'ExtWikGen';
-	const VERSION = '2';
-	const LOG_PREFIX = `[${USERSCRIPT_NAME} v${VERSION}]:`;
+	const LOG_PREFIX = `[${USERSCRIPT_NAME}]:`;
 
 	function error(...toLog) {
 		console.error(LOG_PREFIX, ...toLog);
@@ -142,21 +141,27 @@
 	}
 
 	function lazyExternalWikilinkGenerator() {
-		if (!mw) {
-			wait('Global mw has not loaded yet.');
-			return;
-		}
-		if (!mw.config) {
-			wait('mw.config has not loaded yet');
-			return;
-		}
-		const namespaceId = mw.config.get('wgNamespaceNumber');
-		if (namespaceId == -1) {
-			info('Special page. Aborting.');
-			return;
-		}
-		if (!mw.loader || !mw.loader.using) {
-			wait('Function mw.loader.using is no loaded yet.');
+		try {
+			if (mw == undefined) {
+				wait('Global mw has not loaded yet.');
+				return;
+			}
+			if (mw.config == undefined) {
+				wait('mw.config has not loaded yet');
+				return;
+			}
+			const namespaceId = mw.config.get('wgNamespaceNumber');
+			if (namespaceId == -1) {
+				info('Special page. Aborting.');
+				return;
+			}
+			if (!mw.loader || !mw.loader.using) {
+				wait('Function mw.loader.using is no loaded yet.');
+				return;
+			}
+		} catch (e) {
+			warn("Caught exception", e);
+			wait('Caught exception');
 			return;
 		}
 		debug('Loading...');
