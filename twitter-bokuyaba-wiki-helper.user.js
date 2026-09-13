@@ -60,6 +60,7 @@
 		'TOEI_PR', // anime distributor or smth
 		'caoryu_YS', // Sonoka Maeda -- animation director, animator, story boarder
 		'championcrossPR',
+		'mechacomic',
 	]);
 
 	function error(...toLog) {
