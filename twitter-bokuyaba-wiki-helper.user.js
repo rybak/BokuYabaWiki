@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      52
+// @version      53
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -265,6 +265,12 @@
 	}
 
 	function extractTweetText(tweetTextElement) {
+		if (tweetTextElement.getAttribute('data-testid') !== 'tweetText') {
+			/*
+			 * This means that the tweet only has images, and there is no text.
+			 */
+			return "";
+		}
 		/*
 		 * .innerText for <span>s
 		 * .alt for emojis which are <img> tags
@@ -334,8 +340,8 @@
 		const parts = document.location.pathname.split('/');
 		const user = parts[1];
 		const number = parts[3];
-		waitForElement('section > h1 + div article [data-testid="tweetText"], ' +
-					   'section > h1 + div article [data-testid="tweetPhoto"]').then(tweetTextElement => {
+		waitForElement(`section > h1 + div article:has(a[href="${document.location.pathname}"]) [data-testid="tweetText"], ` +
+					   `section > h1 + div article:has(a[href="${document.location.pathname}"]) [data-testid="tweetPhoto"]`).then(tweetTextElement => {
 			const title = extractTweetText(tweetTextElement);
 			if (translation == undefined || translation.length === 0) {
 				translation = automaticTranslation(user, title);
