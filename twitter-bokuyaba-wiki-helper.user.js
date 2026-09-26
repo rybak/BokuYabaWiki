@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      53
+// @version      54
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -61,6 +61,7 @@
 		'caoryu_YS', // Sonoka Maeda -- animation director, animator, story boarder
 		'championcrossPR',
 		'mechacomic',
+		'animatetimes',
 	]);
 
 	function error(...toLog) {
