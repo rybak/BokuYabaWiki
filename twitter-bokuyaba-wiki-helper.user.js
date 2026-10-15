@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      54
+// @version      55
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -53,12 +53,15 @@
 		'pig_man1209',
 		'bokuyaba_anime',
 		'haika_nanasaka',
+		'yr_nkmt2080',
 		'sakurainorioEX',
 		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
 		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin', 'ikebukurobs_gm',
 		'wg_6603', // WonderGOO store
 		'TOEI_PR', // anime distributor or smth
 		'caoryu_YS', // Sonoka Maeda -- animation director, animator, story boarder
+		'seryu_oekaki', // animator? Not listed on AniList, need to check credits.
+		'shashaneko123', // animator
 		'championcrossPR',
 		'mechacomic',
 		'animatetimes',
