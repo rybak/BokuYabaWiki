@@ -423,10 +423,14 @@
 
 	function appendWaybackMachineLink(link) {
 		const url = link.href;
-		const newLink = document.createElement('a');
-		newLink.href = waybackMachineOldestUrl(url);
-		newLink.append('🗄️');
-		link.insertAdjacentElement('afterend', newLink);
+		const oldestLink = document.createElement('a');
+		oldestLink.href = waybackMachineOldestUrl(url);
+		oldestLink.append('🗄️');
+		link.insertAdjacentElement('afterend', oldestLink);
+		const newestLink = document.createElement('a');
+		newestLink.href = waybackMachineNewestUrl(url);
+		newestLink.append('📜');
+		oldestLink.insertAdjacentElement('afterend', newestLink);
 	}
 
 	function fandom() {
