@@ -55,14 +55,16 @@
 		'haika_nanasaka',
 		'yr_nkmt2080',
 		'sakurainorioEX',
-		'MF_bunkoJ', 'gsc_kahotan', 'gemers_no_book', 'melonbooks_ec', 'melon_manga', 'odaiba_gema',
+		'gemers_no_book', 'akiba_gema', 'odaiba_gema',
+		'MF_bunkoJ', 'gsc_kahotan', 'melonbooks_ec', 'melon_manga',
 		'yumurasc', 'mup_contents', 'animatebooks', 'surugaya_kosin', 'ikebukurobs_gm',
+		'shosen_online', 'Yurindo_PayPay',
 		'wg_6603', // WonderGOO store
 		'TOEI_PR', // anime distributor or smth
 		'caoryu_YS', // Sonoka Maeda -- animation director, animator, story boarder
 		'seryu_oekaki', // animator? Not listed on AniList, need to check credits.
 		'shashaneko123', // animator
-		'championcrossPR',
+		'championcrossPR', 'championcross', 'champion_web_YC',
 		'mechacomic',
 		'animatetimes',
 	]);
