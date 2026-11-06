@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Twitter: BokuYaba wiki helper
 // @namespace    https://andrybak.dev
-// @version      55
+// @version      56
 // @description  Helps with adding Twitter citations on BokuYaba wiki
 // @author       Andrei Rybak
 // @license      MIT
@@ -317,7 +317,7 @@
 	function formatTeaserTranslation(title) {
 		if (isOneyaba(title)) {
 			// using template substitution with functions from https://bokuyaba.fandom.com/wiki/Module:Chapter
-			return "{{Hashtag}}BokuYabaSpinoff \"The Romantic Comedy Won't Start\" Score.{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available! ";
+			return "{{Hashtag}}BokuYabaSpinoff \"The Romantic Comedy Won't Start\" Score.{{subst:#invoke:Chapter|detectChapterNumber}} \"{{subst:#invoke:Chapter|detectChapterTitle}}\" is now available🎧♪ ";
 		} else {
 			const maybeWithNumbers = /思春期ラブコメ「僕の心のヤバイやつ」([0-9]+)話が更新されました。/.exec(title);
 			if (maybeWithNumbers !== null) {
